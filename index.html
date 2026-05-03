@@ -1,457 +1,911 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patinha - Guia de Adestramento</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-orange: #f05a24;
-            --primary-green: #3ab475;
-            --bg-color: #f5f1ea;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --text-dark: #2d2d2d;
-            --text-light: #666;
-            --radius: 28px;
-            --glass: rgba(255, 255, 255, 0.6);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornal Animal — Edição 001</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   JORNAL ANIMAL — Design System
+   Direção: Jornal impresso 1920s + toques digitais mágicos
+   Papel branco moderno, detalhes vintage, vida própria
+============================================================ */
+:root {
+  --ink:       #1A1208;
+  --ink-soft:  #3D2F1A;
+  --ink-muted: #7A6A55;
+  --paper:     #FDFAF5;
+  --paper-warm:#F5F0E8;
+  --paper-dark:#EDE6D6;
+  --rule:      #2A1F0E;
+  --rule-thin: rgba(42,31,14,0.25);
+  --red:       #8B1A1A;
+  --gold:      #B8860B;
+  --gold-lt:   #D4A017;
+  --sage:      #3A5A3A;
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'Source Serif 4', Georgia, serif;
+  --ff-gothic:  'UnifrakturMaguntia', cursive;
+  --ff-hand:    'Dancing Script', cursive;
+}
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
+/* ── RESET ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:#D4C9B5;
+  font-family:var(--ff-body);
+  color:var(--ink);
+  min-height:100vh;
+  padding:20px 16px 60px;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.6;
+}
 
-        #app {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            position: relative;
-            padding-bottom: 100px;
-        }
+/* ── SHELL ── */
+.journal{
+  max-width:860px;margin:0 auto;
+  position:relative;z-index:1;
+}
 
-        /* --- UI COMPONENTS --- */
+/* ── PAGES ── */
+.page{
+  background:var(--paper);
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.08),
+    0 8px 24px rgba(0,0,0,.12),
+    4px 4px 0 rgba(0,0,0,.04),
+    inset 0 0 80px rgba(180,160,120,.08);
+  margin-bottom:32px;
+  position:relative;
+  overflow:hidden;
+}
+.page::before{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(90deg, rgba(180,160,120,.06) 0%, transparent 6%, transparent 94%, rgba(180,160,120,.06) 100%),
+    linear-gradient(180deg, rgba(180,160,120,.04) 0%, transparent 8%, transparent 92%, rgba(180,160,120,.04) 100%);
+  pointer-events:none;z-index:0;
+}
+.page-inner{position:relative;z-index:1;padding:32px 40px 40px;}
 
-        .header {
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* ── REGRAS DECORATIVAS ── */
+.rule-double{
+  border:none;
+  border-top:3px solid var(--rule);
+  position:relative;
+  margin:0 0 2px;
+}
+.rule-double::after{
+  content:'';display:block;
+  border-top:1px solid var(--rule);
+  margin-top:3px;
+}
+.rule-thin{border:none;border-top:1px solid var(--rule-thin);margin:10px 0}
+.rule-thick{border:none;border-top:2px solid var(--rule);margin:12px 0}
+.rule-ornament{
+  text-align:center;font-size:1.1rem;color:var(--ink-muted);
+  margin:14px 0;letter-spacing:.3em;
+}
 
-        .logo {
-            font-weight: 800;
-            font-size: 24px;
-            color: var(--primary-orange);
-        }
+/* ── CABEÇALHO DA CAPA ── */
+.masthead{
+  text-align:center;
+  padding:20px 0 0;
+  border-bottom:4px double var(--rule);
+  padding-bottom:14px;
+  margin-bottom:0;
+}
+.masthead-top{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--ff-body);font-size:.65rem;
+  color:var(--ink-soft);margin-bottom:8px;
+  font-style:italic;letter-spacing:.04em;
+}
+.masthead-flag{
+  font-family:var(--ff-gothic);
+  font-size:4.8rem;line-height:.95;
+  color:var(--ink);
+  letter-spacing:.02em;
+  text-shadow:2px 2px 0 rgba(0,0,0,.08);
+}
+.masthead-tagline{
+  font-family:var(--ff-body);font-size:.72rem;
+  color:var(--ink-soft);letter-spacing:.18em;
+  text-transform:uppercase;margin-top:6px;font-style:italic;
+}
+.masthead-stripe{
+  background:var(--ink);color:var(--paper);
+  font-family:var(--ff-body);font-size:.65rem;
+  letter-spacing:.08em;padding:5px 0;text-transform:uppercase;
+  margin-top:10px;
+  display:flex;align-items:center;justify-content:center;gap:24px;
+}
+.masthead-stripe span::before{content:'❧ '}
+.masthead-stripe span::after{content:' ❧'}
 
-        .logo span { color: var(--primary-green); }
+/* ── SEÇÕES INTERNAS ── */
+.section-flag{
+  font-family:var(--ff-display);font-size:.62rem;
+  font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--paper);background:var(--ink);
+  padding:4px 12px;display:inline-block;margin-bottom:8px;
+}
+.section-flag.red{background:var(--red)}
+.section-flag.gold{background:var(--gold)}
+.section-flag.sage{background:var(--sage)}
 
-        .btn-back {
-            background: var(--glass);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 20px;
-            display: none;
-        }
+/* ── COLUNAS ── */
+.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:0;border-left:1px solid var(--rule-thin)}
+.cols-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-left:1px solid var(--rule-thin)}
+.col{padding:0 20px;border-right:1px solid var(--rule-thin)}
 
-        h1 { font-weight: 800; font-size: 28px; margin-bottom: 20px; }
+.cols-lead{display:grid;grid-template-columns:3fr 2fr;gap:0;border-left:1px solid var(--rule-thin)}
+.cols-lead .col-main{padding:0 22px;border-right:1px solid var(--rule-thin)}
+.cols-lead .col-side{padding:0 20px;border-right:1px solid var(--rule-thin)}
 
-        /* --- HOME SCREEN: TREINOS --- */
+/* ── TIPOGRAFIA EDITORIAL ── */
+.headline-xl{
+  font-family:var(--ff-display);font-size:2.8rem;font-weight:900;
+  line-height:1.0;letter-spacing:-.01em;color:var(--ink);
+  margin-bottom:8px;
+}
+.headline-xl.italic{font-style:italic}
+.headline-lg{
+  font-family:var(--ff-display);font-size:1.9rem;font-weight:700;
+  line-height:1.1;color:var(--ink);margin-bottom:6px;
+}
+.headline-md{
+  font-family:var(--ff-display);font-size:1.3rem;font-weight:700;
+  line-height:1.2;color:var(--ink);margin-bottom:5px;
+}
+.headline-sm{
+  font-family:var(--ff-display);font-size:1rem;font-weight:700;
+  line-height:1.25;color:var(--ink);margin-bottom:4px;
+}
+.deck{
+  font-family:var(--ff-body);font-size:.82rem;font-style:italic;
+  color:var(--ink-soft);line-height:1.5;margin-bottom:10px;
+}
+.byline{
+  font-family:var(--ff-body);font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-muted);margin-bottom:10px;
+  display:flex;align-items:center;gap:8px;
+}
+.byline::before,.byline::after{content:'—';color:var(--rule-thin)}
+.body-text{
+  font-family:var(--ff-body);font-size:.82rem;
+  line-height:1.72;color:var(--ink-soft);
+  text-align:justify;hyphens:auto;
+}
+.body-text p{margin-bottom:.9em}
+.body-text p:first-child::first-letter{
+  font-family:var(--ff-display);font-size:3.4rem;font-weight:900;
+  float:left;line-height:.78;margin-right:6px;margin-top:4px;
+  color:var(--ink);
+}
+.dropcap-red::first-letter{color:var(--red)!important}
+.caption{
+  font-family:var(--ff-body);font-size:.65rem;font-style:italic;
+  color:var(--ink-muted);text-align:center;margin-top:6px;
+  line-height:1.4;
+}
 
-        .training-list {
-            display: grid;
-            gap: 15px;
-        }
+/* ── IMAGEM PLACEHOLDER ── */
+.img-box{
+  background:var(--paper-dark);
+  border:1px solid var(--rule-thin);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;position:relative;
+}
+.img-box .img-emoji{font-size:3.5rem;margin-bottom:6px;animation:sway 4s ease-in-out infinite}
+.img-box .img-label{font-family:var(--ff-body);font-size:.6rem;color:var(--ink-muted);letter-spacing:.08em;text-transform:uppercase}
+/* Imagem "mágica" que pulsa */
+.img-magic::after{
+  content:'✦';position:absolute;top:8px;right:10px;
+  font-size:1rem;color:var(--gold);
+  animation:sparkle 2s ease-in-out infinite;
+}
+@keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
 
-        .training-card {
-            background: white;
-            padding: 20px;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.03);
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            border: 1px solid rgba(255,255,255,0.5);
-        }
+/* ── VIDEO EMBED (TikTok da semana) ── */
+.video-frame{
+  background:var(--ink);border:2px solid var(--rule);
+  border-radius:2px;padding:14px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.video-frame::before{
+  content:'▶';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:2.5rem;color:rgba(255,255,255,.15);
+  pointer-events:none;
+}
+.video-placeholder{
+  background:rgba(255,255,255,.05);border:1px dashed rgba(255,255,255,.2);
+  padding:20px;color:rgba(255,255,255,.6);font-family:var(--ff-body);
+  font-size:.75rem;font-style:italic;text-align:center;line-height:1.6;
+}
+.video-caption{
+  color:rgba(255,255,255,.5);font-family:var(--ff-body);
+  font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  margin-top:8px;
+}
 
-        .training-card:active { transform: scale(0.98); }
+/* ── ADOÇÃO ── */
+.adoption-card{
+  background:var(--paper-warm);
+  border:2px solid var(--rule);
+  padding:16px;position:relative;
+}
+.adoption-card::before{
+  content:'ADOTE';
+  position:absolute;top:-1px;right:16px;
+  background:var(--red);color:var(--paper);
+  font-family:var(--ff-display);font-size:.6rem;font-weight:700;
+  letter-spacing:.2em;padding:3px 10px;
+}
+.adoption-pet-name{
+  font-family:var(--ff-display);font-size:1.4rem;font-weight:900;
+  font-style:italic;color:var(--ink);margin-bottom:3px;
+}
+.adoption-detail{font-family:var(--ff-body);font-size:.72rem;color:var(--ink-muted);margin-bottom:8px}
+.adoption-contact{
+  background:var(--ink);color:var(--paper);
+  font-family:var(--ff-body);font-size:.68rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:6px 12px;display:inline-block;margin-top:8px;
+  cursor:pointer;transition:.2s;
+}
+.adoption-contact:hover{background:var(--red)}
 
-        .card-top { display: flex; align-items: center; gap: 15px; }
+/* ── PULL QUOTE ── */
+.pull-quote{
+  border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
+  padding:14px 0;margin:16px 0;text-align:center;
+}
+.pull-quote p{
+  font-family:var(--ff-display);font-size:1.15rem;font-style:italic;
+  font-weight:700;line-height:1.35;color:var(--ink);
+}
+.pull-quote cite{
+  font-family:var(--ff-body);font-size:.65rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-muted);margin-top:6px;display:block;
+}
 
-        .card-icon {
-            font-size: 32px;
-            background: #fff5f0;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 20px;
-        }
+/* ── NOTA DE RODAPÉ / COLOFÃO ── */
+.colophon{
+  text-align:center;font-family:var(--ff-body);font-size:.62rem;
+  color:var(--ink-muted);font-style:italic;margin-top:24px;
+  border-top:1px solid var(--rule-thin);padding-top:12px;
+  letter-spacing:.04em;
+}
 
-        .card-info h3 { font-size: 18px; font-weight: 700; }
-        .card-info p { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+/* ── CABEÇALHO DE PÁGINAS INTERNAS ── */
+.page-header{
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px solid var(--rule);padding-bottom:8px;margin-bottom:16px;
+}
+.page-num{
+  font-family:var(--ff-display);font-size:1.1rem;font-weight:700;color:var(--ink-muted);
+}
+.page-title-small{
+  font-family:var(--ff-gothic);font-size:1.4rem;color:var(--ink);
+}
+.page-date-small{
+  font-family:var(--ff-body);font-size:.6rem;font-style:italic;color:var(--ink-muted);text-align:right;
+}
 
-        .progress-container {
-            width: 100%;
-            background: #eee;
-            height: 8px;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
+/* ── ANÚNCIO CLASSIFICADO (detalhes vintage) ── */
+.classifieds{
+  background:var(--paper-dark);border:1px solid var(--rule);
+  padding:12px 16px;
+}
+.classifieds-title{
+  font-family:var(--ff-display);font-size:.72rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  border-bottom:1px solid var(--rule);padding-bottom:6px;margin-bottom:10px;
+}
+.classified-item{
+  font-family:var(--ff-body);font-size:.65rem;line-height:1.55;
+  color:var(--ink-soft);margin-bottom:6px;padding-bottom:6px;
+  border-bottom:1px dashed var(--rule-thin);
+}
+.classified-item:last-child{border-bottom:none;margin-bottom:0}
+.classified-item strong{color:var(--ink)}
 
-        .progress-bar {
-            height: 100%;
-            background: var(--primary-orange);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
+/* ── ORNAMENTOS ── */
+.ornament{text-align:center;font-size:1.2rem;color:var(--gold);margin:12px 0;letter-spacing:.4em}
+.fleuron{color:var(--ink-muted);margin:0 8px}
 
-        /* --- DETALHE DO TREINO --- */
+/* ── BADGE ANIMADO "EXCLUSIVO" ── */
+.badge-magic{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--gold);color:var(--ink);
+  font-family:var(--ff-body);font-size:.55rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 10px;position:relative;overflow:hidden;
+}
+.badge-magic::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.4) 50%,transparent 100%);
+  animation:shimmer 2.5s ease-in-out infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 
-        .detail-view { display: none; animation: fadeIn 0.3s ease; }
+/* ── NAVEGAÇÃO ENTRE PÁGINAS ── */
+.nav-pages{
+  display:flex;justify-content:center;gap:8px;
+  margin-bottom:24px;flex-wrap:wrap;
+}
+.nav-page-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.6);border:1.5px solid rgba(42,31,14,.25);
+  font-family:var(--ff-display);font-size:.8rem;font-weight:700;
+  color:var(--ink-soft);cursor:pointer;transition:.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.nav-page-btn:hover,.nav-page-btn.active{
+  background:var(--ink);color:var(--paper);border-color:var(--ink);
+}
+.nav-page-btn.capa-btn{width:auto;padding:0 14px;border-radius:20px;font-size:.7rem;letter-spacing:.06em}
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* ── ANIMAÇÃO DE ENTRADA ── */
+.page{opacity:0;transform:translateY(12px);transition:opacity .5s ease,transform .5s ease}
+.page.visible{opacity:1;transform:translateY(0)}
 
-        section {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.4);
-        }
-
-        section h4 { margin-bottom: 15px; font-weight: 700; text-transform: uppercase; font-size: 12px; letter-spacing: 1px; color: var(--primary-orange); }
-
-        .steps-list { list-style: none; }
-        .steps-list li { margin-bottom: 12px; font-size: 15px; line-height: 1.4; display: flex; gap: 10px; }
-        .steps-list li::before { content: '•'; color: var(--primary-orange); font-weight: bold; }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            cursor: pointer;
-        }
-
-        .checklist-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--primary-green);
-        }
-
-        .btn-finish {
-            width: 100%;
-            padding: 20px;
-            border-radius: var(--radius);
-            border: none;
-            background: var(--primary-orange);
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(240, 90, 36, 0.3);
-            transition: background 0.3s;
-        }
-
-        .btn-finish:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
-
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .stat-card { background: white; padding: 15px; border-radius: 20px; text-align: center; }
-        .stat-value { display: block; font-size: 22px; font-weight: 800; color: var(--primary-green); }
-        .stat-label { font-size: 11px; color: var(--text-light); text-transform: uppercase; }
-
-        /* --- NAVBAR --- */
-        .navbar {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 410px;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            height: 70px;
-            border-radius: 35px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.5);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .nav-item { text-align: center; color: #a0a0a0; font-size: 10px; font-weight: 600; text-decoration: none; }
-        .nav-item.active { color: var(--primary-orange); }
-        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
-
-    </style>
+/* ── RESPONSIVO ── */
+@media(max-width:640px){
+  body{padding:12px 8px 60px}
+  .page-inner{padding:20px 18px 28px}
+  .masthead-flag{font-size:3rem}
+  .headline-xl{font-size:2rem}
+  .headline-lg{font-size:1.4rem}
+  .cols-2,.cols-3,.cols-lead{grid-template-columns:1fr}
+  .col,.cols-lead .col-main,.cols-lead .col-side{border-right:none;padding:0;margin-bottom:20px}
+  .cols-2,.cols-3,.cols-lead{border-left:none}
+}
+</style>
 </head>
 <body>
 
-<div id="app">
-    <div class="header">
-        <div class="logo">patinha<span>.</span></div>
-    </div>
+<div class="journal">
 
-    <!-- HOME VIEW -->
-    <div id="home-view">
-        <h1>Guia de <br>Adestramento</h1>
-        <div class="training-list" id="training-list">
-            <!-- JS vai popular aqui -->
+  <!-- NAVEGAÇÃO -->
+  <div class="nav-pages" id="nav-pages">
+    <button class="nav-page-btn capa-btn active" onclick="showPage('capa',this)">Capa</button>
+    <button class="nav-page-btn" onclick="showPage('p2',this)">2</button>
+    <button class="nav-page-btn" onclick="showPage('p3',this)">3</button>
+    <button class="nav-page-btn" onclick="showPage('p4',this)">4</button>
+    <button class="nav-page-btn" onclick="showPage('p5',this)">5</button>
+  </div>
+
+  <!-- ============================================================
+       CAPA — PÁGINA 1
+  ============================================================ -->
+  <div class="page visible" id="page-capa">
+    <div class="page-inner">
+
+      <!-- MASTHEAD -->
+      <div class="masthead">
+        <div class="masthead-top">
+          <span>Edição Nº 001</span>
+          <span>Fundado em 2025 · Publicado semanalmente</span>
+          <span id="data-capa">— · — · —</span>
         </div>
-    </div>
+        <div class="masthead-flag">Jornal Animal</div>
+        <div class="masthead-tagline">O mundo que late, mia, nada e voa — contado com rigor e afeto</div>
+        <div class="masthead-stripe">
+          <span>Legislação</span>
+          <span>Fauna Selvagem</span>
+          <span>Adoção da Semana</span>
+          <span>Viralizou</span>
+        </div>
+      </div>
 
-    <!-- DETAIL VIEW -->
-    <div id="detail-view" class="detail-view">
-        <button class="btn-back" onclick="showHome()">← Voltar</button>
-        <h1 id="detail-title">Treino</h1>
+      <div style="height:14px"></div>
+      <hr class="rule-thin">
 
-        <section>
-            <h4>Como funciona</h4>
-            <ul class="steps-list" id="detail-steps"></ul>
-        </section>
+      <!-- CHAMADAS DA CAPA -->
 
-        <section>
-            <h4>Checklist do treino</h4>
-            <div id="checklist">
-                <label class="checklist-item">
-                    <input type="checkbox" class="check-step"> Preparei o ambiente calmo
-                </label>
-                <label class="checklist-item">
-                    <input type="checkbox" class="check-step"> Tenho recompensas (petiscos)
-                </label>
-                <label class="checklist-item">
-                    <input type="checkbox" class="check-step"> Meu pet está atento a mim
-                </label>
-            </div>
-        </section>
+      <!-- MANCHETE PRINCIPAL -->
+      <div style="margin-bottom:14px">
+        <span class="section-flag red">Manchete</span>
+        <div class="headline-xl italic">Os Hipopótamos de Escobar Tomam o Rio Magdalena</div>
+        <div class="deck">Décadas após a morte do narcotraficante, os hipopótamos que ele trouxe à Colômbia se multiplicaram e hoje ameaçam o ecossistema fluvial. O governo tenta — e falha — em contê-los.</div>
+        <hr class="rule-thin">
+      </div>
 
-        <button class="btn-finish" id="btn-finish" onclick="completeDailyTraining()">Concluir treino de hoje</button>
+      <!-- GRID DE CHAMADAS -->
+      <div class="cols-lead">
+        <div class="col-main">
 
-        <div id="feedback-msg" style="text-align: center; margin: 20px 0; font-weight: 600; color: var(--primary-green); display: none;">
-            ✨ Seu pet está evoluindo! Continue assim!
+          <div class="img-box img-magic" style="height:200px;margin-bottom:10px">
+            <div class="img-emoji">🦛</div>
+            <div class="img-label">Foto: Rio Magdalena, Colômbia · 2025</div>
+          </div>
+
+          <div class="body-text dropcap-red">
+            <p>Em 1993, quando Pablo Escobar caiu, seus quatro hipopótamos foram deixados para trás na Hacienda Nápoles. Ninguém imaginou que aquele quarteto africano se tornaria, três décadas depois, a maior invasão de megafauna do hemisfério ocidental.</p>
+            <p>Hoje, estima-se que mais de <strong>170 hipopótamos</strong> habitam os rios e lagos colombianos. Cientistas os chamam de "engenheiros do ecossistema": seus dejetos alteram a química da água, favorecendo certas algas e prejudicando espécies nativas de peixe.</p>
+          </div>
+
+          <div class="pull-quote">
+            <p>"São os mamíferos invasores mais pesados do planeta. E estão prosperando."</p>
+            <cite>— Dr. Natalia Ocampo, bióloga da Universidade dos Andes</cite>
+          </div>
+
+          <div class="body-text">
+            <p>O governo colombiano tenta desde 2009 esterilizar os animais — procedimento arriscado e custoso. Em 2021, um juiz federal concedeu aos hipopótamos status de "pessoas com interesse jurídico", complicando ainda mais as opções letais.</p>
+          </div>
+
+          <hr class="rule-thin">
+          <p style="font-size:.65rem;font-style:italic;color:var(--ink-muted);text-align:right">Continua na Página 2 ❧</p>
         </div>
 
-        <section style="margin-top: 25px;">
-            <h4>Seu progresso</h4>
-            <div class="progress-container" style="margin-bottom: 15px;">
-                <div class="progress-bar" id="detail-progress-bar"></div>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <span class="stat-value" id="stat-progress">0%</span>
-                    <span class="stat-label">Concluído</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-value" id="stat-streak">0</span>
-                    <span class="stat-label">Dias seguidos</span>
-                </div>
-            </div>
-        </section>
-    </div>
+        <div class="col-side">
 
-    <!-- NAVBAR SIMULADA -->
-    <nav class="navbar">
-        <a href="#" class="nav-item active"><span class="nav-icon">🏠</span>Início</a>
-        <a href="#" class="nav-item"><span class="nav-icon">💰</span>Finanças</a>
-        <a href="#" class="nav-item"><span class="nav-icon">🐾</span>Perfil</a>
-    </nav>
-</div>
+          <!-- CHAMADA 2: LEGISLAÇÃO -->
+          <div style="margin-bottom:16px">
+            <span class="section-flag gold">Legislação</span>
+            <div class="headline-sm">Nova lei proíbe coleiras de choque em todo o território nacional</div>
+            <div class="deck" style="font-size:.72rem">Sancionada em março, a medida entra em vigor em julho e prevê multas de até R$ 15 mil.</div>
+            <hr class="rule-thin">
+            <p style="font-size:.65rem;font-style:italic;color:var(--ink-muted);text-align:right">Página 3 ❧</p>
+          </div>
+
+          <!-- CHAMADA 3: ADOÇÃO -->
+          <div style="margin-bottom:16px">
+            <span class="section-flag sage">Adoção</span>
+            <div class="img-box" style="height:110px;margin-bottom:8px">
+              <div class="img-emoji" style="font-size:2.5rem">🐕</div>
+              <div class="img-label">Bolinha · 3 anos · BH/MG</div>
+            </div>
+            <div class="headline-sm">"Bolinha espera há dois anos. Esta semana pode ser a dele."</div>
+            <hr class="rule-thin">
+            <p style="font-size:.65rem;font-style:italic;color:var(--ink-muted);text-align:right">Página 4 ❧</p>
+          </div>
+
+          <!-- CHAMADA 4: TIKTOK -->
+          <div>
+            <span class="section-flag" style="background:#000">Viralizou</span>
+            <div class="headline-sm">O gato que "explica" a crise climática em 40 segundos</div>
+            <div class="deck" style="font-size:.72rem">Vídeo acumulou 28 milhões de visualizações em 72 horas. Entenda o fenômeno.</div>
+            <hr class="rule-thin">
+            <p style="font-size:.65rem;font-style:italic;color:var(--ink-muted);text-align:right">Página 5 ❧</p>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="rule-thick" style="margin-top:18px">
+
+      <!-- FAIXA DE RODAPÉ DA CAPA -->
+      <div class="cols-3" style="border:none;margin-top:12px">
+        <div class="col" style="border-left:none">
+          <div style="font-family:var(--ff-display);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Breve</div>
+          <p style="font-family:var(--ff-body);font-size:.65rem;line-height:1.5;color:var(--ink-soft)"><strong>Baleia jubarte</strong> é avistada a 200m da costa do Rio de Janeiro, surpreendendo pescadores e turistas.</p>
+        </div>
+        <div class="col">
+          <div style="font-family:var(--ff-display);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Breve</div>
+          <p style="font-family:var(--ff-body);font-size:.65rem;line-height:1.5;color:var(--ink-soft)"><strong>Lobo-guará</strong> com GPS flagrado a 12km do centro de Brasília. Espécie avança território.</p>
+        </div>
+        <div class="col">
+          <div style="font-family:var(--ff-display);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Breve</div>
+          <p style="font-family:var(--ff-body);font-size:.65rem;line-height:1.5;color:var(--ink-soft)"><strong>Pesquisa UFMG</strong> comprova que cães conseguem detectar crises de ansiedade 20min antes do episódio.</p>
+        </div>
+      </div>
+
+      <div class="colophon">
+        Jornal Animal · Edição 001 · Publicação independente de jornalismo animal · Todos os direitos reservados
+        <br><span style="font-family:'Dancing Script',cursive;font-size:.9rem">by Karolina</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PÁGINA 2 — REPORTAGEM PRINCIPAL
+  ============================================================ -->
+  <div class="page" id="page-p2" style="display:none">
+    <div class="page-inner">
+
+      <div class="page-header">
+        <div class="page-num">2</div>
+        <div class="page-title-small">Jornal Animal</div>
+        <div class="page-date-small">Edição 001<br id="data-p2"></div>
+      </div>
+
+      <span class="section-flag red">Reportagem Especial</span>
+      <div class="headline-lg">A Herança Perigosa do Capo: Como os Hipopótamos Colombianos Desafiam a Ciência</div>
+      <div class="byline">Por nossa correspondente de Fauna Selvagem</div>
+
+      <div class="cols-2">
+        <div class="col" style="border-left:none">
+          <div class="body-text">
+            <p>O município de Puerto Triunfo, no departamento de Antioquia, é o epicentro do que biólogos chamam, sem exagero, de o maior experimento involuntário de reintrodução de megafauna da história moderna. A Hacienda Nápoles, que um dia foi símbolo de poder e extravagância, tornou-se um laboratório a céu aberto.</p>
+            <p>Os quatro hipopótamos originais — três fêmeas e um macho — chegaram contrabandeados da África por Escobar na década de 1980. Após sua morte em 1993, o governo colombiano confiscou a propriedade, mas os animais eram impossíveis de transportar com segurança. Ficaram. E se reproduziram.</p>
+            <p>A taxa de reprodução surpreendeu os cientistas. Na África, hipopótamos enfrentam predadores naturais como leões e crocodilos, além de competição por território. Na Colômbia, esses fatores inexistem. Uma fêmea adulta pode parir a cada dois anos.</p>
+          </div>
+
+          <div class="pull-quote">
+            <p>"Na Colômbia, o hipopótamo encontrou o paraíso. Água quente, comida abundante, sem predadores."</p>
+            <cite>— Wildlife Conservation Society, relatório 2024</cite>
+          </div>
+
+          <div class="body-text">
+            <p>O impacto ambiental é complexo e contraditório. De um lado, os dejetos dos animais enriquecem as águas com nutrientes, criando florescimentos de algas que sufocam espécies nativas. De outro, pesquisadores descobriram que os hipopótamos estão inadvertidamente recriando condições que existiram na América do Sul há 10.000 anos, quando megafauna similar habitava o continente.</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="img-box img-magic" style="height:180px;margin-bottom:10px">
+            <div class="img-emoji">🌊🦛🌿</div>
+            <div class="img-label">Hacienda Nápoles, hoje parque turístico</div>
+          </div>
+
+          <div class="body-text">
+            <p>A solução mais óbvia — abater os animais — gerou uma batalha jurídica sem precedentes. Em 2021, ativistas conseguiram que um juiz americano reconhecesse os hipopótamos como "pessoas interessadas" em um processo judicial. Embora a decisão não tenha força executória na Colômbia, criou um precedente filosófico perturbador.</p>
+            <p>Atualmente, o governo testa três abordagens simultâneas: esterilização química com GonaCon, transferência de animais para zoológicos ao redor do mundo — apenas 70 vagas foram confirmadas até hoje —, e monitoramento por GPS de 40 indivíduos.</p>
+          </div>
+
+          <div class="classifieds">
+            <div class="classifieds-title">Cronologia</div>
+            <div class="classified-item"><strong>1981</strong> — Escobar contrabandeia 4 hipopótamos da África.</div>
+            <div class="classified-item"><strong>1993</strong> — Morte de Escobar. Animais são abandonados.</div>
+            <div class="classified-item"><strong>2009</strong> — Governo tenta primeiro abate. Reação popular interrompe.</div>
+            <div class="classified-item"><strong>2021</strong> — Juiz americano concede status jurídico aos animais.</div>
+            <div class="classified-item"><strong>2024</strong> — População estimada em 170 indivíduos.</div>
+            <div class="classified-item"><strong>2025</strong> — Programa de transferência internacional ampliado.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="rule-thick">
+      <div class="ornament">✦ ✦ ✦</div>
+
+      <!-- SEGUNDO ARTIGO DA PÁGINA -->
+      <span class="section-flag">Fauna Brasileira</span>
+      <div class="headline-md">Onça-pintada Avança Sobre o Cerrado Fragmentado</div>
+      <div class="byline">Redação Jornal Animal</div>
+
+      <div class="cols-2">
+        <div class="col" style="border-left:none">
+          <div class="body-text">
+            <p>Câmeras-armadilha instaladas pelo Instituto Pró-Carnívoros registraram, nos últimos seis meses, a presença de onças-pintadas em três fragmentos de cerrado no oeste de São Paulo — áreas consideradas ecologicamente extintas para grandes felinos há mais de 20 anos. Os animais, identificados individualmente por suas rosetas únicas, percorrem até 80 quilômetros por semana em busca de território e presas.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="body-text">
+            <p>A recuperação é atribuída à combinação de dois fatores: o avanço de corredores ecológicos privados — fazendas que optaram por preservar matas ciliares além do exigido por lei — e o aumento da população de capivaras e veados-catingueiros, presas favoritas da espécie. Pesquisadores alertam, no entanto, que sem proteção legal formal dos corredores, o movimento pode ser revertido rapidamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="colophon">
+        Jornal Animal · Edição 001 · Página 2 — <span style="font-family:'Dancing Script',cursive;font-size:.9rem">by Karolina</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PÁGINA 3 — LEGISLAÇÃO E DIREITOS ANIMAIS
+  ============================================================ -->
+  <div class="page" id="page-p3" style="display:none">
+    <div class="page-inner">
+
+      <div class="page-header">
+        <div class="page-num">3</div>
+        <div class="page-title-small">Jornal Animal</div>
+        <div class="page-date-small">Legislação & Direitos<br id="data-p3"></div>
+      </div>
+
+      <span class="section-flag gold">Legislação Animal</span>
+      <div class="headline-lg">O que Muda no Brasil em 2025 para Pets e Animais Silvestres</div>
+      <div class="byline">Por nossa editora de Políticas Públicas</div>
+      <div class="deck">Três medidas entram em vigor este ano e afetam diretamente tutores, pet shops, caçadores e criadores. Compilamos o que você precisa saber.</div>
+
+      <div class="cols-3">
+        <div class="col" style="border-left:none">
+          <div class="img-box" style="height:80px;margin-bottom:10px">
+            <div class="img-emoji" style="font-size:2rem">⚖️</div>
+          </div>
+          <div class="headline-sm">Lei Nº 14.979 — Coleiras de Choque</div>
+          <div class="body-text" style="margin-top:6px">
+            <p>A partir de julho de 2025, fica proibida a fabricação, venda e uso de coleiras de choque elétrico em todo o território nacional. A punição para o tutor vai de multa (R$ 500 a R$ 15.000) a detenção de três meses, conforme reincidência. Pet shops que mantenham o produto em estoque após a data serão autuados.</p>
+            <p>A medida foi aprovada após lobbying intenso de associações veterinárias, que apresentaram estudos comprovando danos neurológicos e comportamentais em cães submetidos ao método.</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="img-box" style="height:80px;margin-bottom:10px">
+            <div class="img-emoji" style="font-size:2rem">🐟</div>
+          </div>
+          <div class="headline-sm">Pesca Esportiva — Novas Espécies Protegidas</div>
+          <div class="body-text" style="margin-top:6px">
+            <p>O IBAMA atualizou a lista de espécies de peixes de água doce com captura proibida, incluindo o dourado-do-pantanal e a tuvira. A medida afeta principalmente os estados de Mato Grosso e Mato Grosso do Sul, onde o turismo de pesca movimenta R$ 800 milhões por ano.</p>
+            <p>Pescadores esportivos terão até dezembro para adaptar suas práticas. A pesca profissional das espécies foi completamente suspensa por prazo indeterminado, aguardando estudo populacional.</p>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="img-box" style="height:80px;margin-bottom:10px">
+            <div class="img-emoji" style="font-size:2rem">🏠</div>
+          </div>
+          <div class="headline-sm">Condomínios e Pets — Resolução do CFJ</div>
+          <div class="body-text" style="margin-top:6px">
+            <p>O Conselho Federal de Justiça publicou orientação vinculante determinando que condomínios residenciais não podem proibir a criação de animais domésticos nas unidades. A medida não impede restrições razoáveis, como número máximo de animais ou uso exclusivo de elevador de serviço.</p>
+            <p>Síndicos e administradoras têm recebido orientações jurídicas sobre como adequar convenções de condomínio à nova realidade, evitando litígios.</p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="rule-thick">
+
+      <!-- OPINIÃO -->
+      <div style="background:var(--paper-dark);border-left:4px solid var(--gold);padding:16px 20px;margin-top:16px">
+        <span class="badge-magic">Editorial</span>
+        <div class="headline-md" style="margin-top:8px">A Lei Protege o Animal — Mas Quem Educa o Tutor?</div>
+        <div class="byline">Karolina · Editora-chefe</div>
+        <div class="body-text">
+          <p>Cada nova lei aprovada é uma vitória que merece ser celebrada. Mas legislação sem educação é como vacina sem agulha: existe, mas não chega onde precisa. O Brasil tem hoje um dos marcos legais de proteção animal mais robustos da América Latina — e ainda assim os abrigos estão lotados, as coleiras de choque continuam sendo vendidas abertamente, e os rios seguem recebendo resíduos de pet shops sem tratamento.</p>
+          <p>O Jornal Animal nasce exatamente nessa lacuna: não basta informar sobre a lei. É preciso tornar a informação acessível, urgente e humana. Porque quem cuida de um animal com amor já entende, intuitivamente, que a lei está do lado certo. Só precisa saber que ela existe.</p>
+        </div>
+      </div>
+
+      <div class="colophon">
+        Jornal Animal · Edição 001 · Página 3 — <span style="font-family:'Dancing Script',cursive;font-size:.9rem">by Karolina</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PÁGINA 4 — ADOÇÃO DA SEMANA + CURIOSIDADES
+  ============================================================ -->
+  <div class="page" id="page-p4" style="display:none">
+    <div class="page-inner">
+
+      <div class="page-header">
+        <div class="page-num">4</div>
+        <div class="page-title-small">Jornal Animal</div>
+        <div class="page-date-small">Adoção & Curiosidades<br id="data-p4"></div>
+      </div>
+
+      <div class="cols-lead">
+        <div class="col-main">
+
+          <span class="section-flag sage">Adoção da Semana</span>
+          <div class="headline-lg">"Bolinha Espera Há Dois Anos. Esta Semana Pode Ser a Dele."</div>
+          <div class="byline">Parceria com abrigos independentes</div>
+
+          <div class="img-box img-magic" style="height:220px;margin-bottom:12px">
+            <div class="img-emoji" style="font-size:4rem">🐕</div>
+            <div class="img-label">Bolinha · SRD · 3 anos · Castrado · Vacinado</div>
+          </div>
+
+          <div class="body-text">
+            <p>Bolinha chegou ao Abrigo Esperança em uma noite de novembro de 2022, amarrado ao portão com um bilhete: "Não consigo mais cuidar, mas ele é bom." Nos dois anos seguintes, foi o primeiro a chegar quando voluntários abriam o portão de manhã e o último a dormir, sempre esperando.</p>
+            <p>Três famílias demonstraram interesse. Três vezes ele foi devolvido — duas por incompatibilidade com outros pets, uma por mudança de cidade. Cada retorno o deixou mais quieto, menos confiante. Mas ainda abana o rabo.</p>
+            <p>Bolinha pesa 18kg, é castrado, vacinado em dia e vermifugado. Convive bem com crianças maiores de 8 anos. Precisa de espaço para correr e de alguém que entenda que cães devolvidos não são defeituosos — são simplesmente animais que ainda não encontraram a pessoa certa.</p>
+          </div>
+
+          <div class="adoption-card" style="margin-top:14px">
+            <div class="adoption-pet-name">Bolinha</div>
+            <div class="adoption-detail">SRD · Macho · 3 anos · Castrado · Vacinado · BH/MG</div>
+            <div class="body-text">
+              <!-- SUBSTITUA o link e contato abaixo pelo real -->
+              <p style="font-size:.72rem">Entre em contato com o Abrigo Esperança para agendar uma visita e conhecer o Bolinha pessoalmente.</p>
+            </div>
+            <div class="adoption-contact" onclick="alert('Substitua este alerta pelo link ou WhatsApp do abrigo')">
+              Quero adotar → [coloque o link aqui]
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-side">
+
+          <span class="section-flag">Você Sabia?</span>
+          <div class="headline-md" style="margin-top:6px">5 Fatos que Mudam como Você Vê Seu Pet</div>
+          <hr class="rule-thin">
+
+          <div class="body-text" style="margin-top:10px">
+
+            <div style="margin-bottom:14px">
+              <div style="font-family:var(--ff-display);font-size:2rem;font-weight:900;color:var(--gold);line-height:1">01</div>
+              <div class="headline-sm" style="margin-bottom:3px">Cães "leem" nosso humor pelo olfato</div>
+              <p>Pesquisadores da Universidade de Belfast provaram que cães identificam cortisol — hormônio do estresse — no suor humano com 93,75% de acurácia. Eles sabem que você está mal antes de você perceber.</p>
+            </div>
+
+            <hr class="rule-thin">
+
+            <div style="margin-bottom:14px;margin-top:14px">
+              <div style="font-family:var(--ff-display);font-size:2rem;font-weight:900;color:var(--gold);line-height:1">02</div>
+              <div class="headline-sm" style="margin-bottom:3px">Gatos ronronam em frequências curativas</div>
+              <p>A frequência do ronronar felino (25–150 Hz) é a mesma utilizada em fisioterapia para promover regeneração óssea. Ter um gato sobre você literalmente acelera a cura de fraturas.</p>
+            </div>
+
+            <hr class="rule-thin">
+
+            <div style="margin-top:14px">
+              <div style="font-family:var(--ff-display);font-size:2rem;font-weight:900;color:var(--gold);line-height:1">03</div>
+              <div class="headline-sm" style="margin-bottom:3px">Polvos têm personalidades distintas</div>
+              <p>Cada polvo tem um temperamento único — tímido, curioso, agressivo — que se mantém consistente ao longo da vida. São, provavelmente, os animais invertebrados com vida interior mais rica que conhecemos.</p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="colophon">
+        Jornal Animal · Edição 001 · Página 4 — <span style="font-family:'Dancing Script',cursive;font-size:.9rem">by Karolina</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       PÁGINA 5 — VIRALIZOU (TIKTOK) + CLASSIFICADOS
+  ============================================================ -->
+  <div class="page" id="page-p5" style="display:none">
+    <div class="page-inner">
+
+      <div class="page-header">
+        <div class="page-num">5</div>
+        <div class="page-title-small">Jornal Animal</div>
+        <div class="page-date-small">Viralizou & Cultura<br id="data-p5"></div>
+      </div>
+
+      <div class="cols-2">
+        <div class="col" style="border-left:none">
+
+          <span class="section-flag" style="background:#000">Viralizou Esta Semana</span>
+          <div class="headline-lg" style="margin-top:8px">O Gato que "Explica" a Crise Climática</div>
+          <div class="byline">Curadoria semanal de vídeo viral</div>
+          <div class="deck">28 milhões de views em 72 horas. Um gato persa chamado Noodle, um tutor com roteiro afiado e um algoritmo favorável criaram o vídeo pet mais comentado do mês.</div>
+
+          <!-- ÁREA DO VÍDEO TIKTOK -->
+          <!-- SUBSTITUA o conteúdo do video-placeholder pelo embed real do TikTok -->
+          <div class="video-frame">
+            <div class="video-placeholder">
+              ▶ Cole aqui o embed do TikTok da semana<br><br>
+              <span style="font-size:.65rem;opacity:.7">Exemplo:<br>&lt;blockquote class="tiktok-embed" ...&gt;</span>
+            </div>
+            <div class="video-caption">Cole o link ou embed do vídeo acima · Atualizado semanalmente</div>
+          </div>
+
+          <div class="body-text" style="margin-top:14px">
+            <p>O vídeo de Noodle é, a rigor, uma montagem simples: o gato senta em frente a uma tela que mostra dados de temperatura global enquanto o tutor narra, com voz grave e pausas dramáticas, cada marco do aquecimento. O gato não faz nada de especial. É exatamente isso que funcionou.</p>
+            <p>O fenômeno TikTok de pets "comentando" temas sérios — política, economia, saúde mental — cresceu 340% em 2024. Psicólogos do consumo apontam que o animal funciona como escudo emocional: ele suaviza a ansiedade do tema difícil sem minimizá-lo.</p>
+          </div>
+
+          <div class="pull-quote">
+            <p>"O gato não tem opinião sobre o clima. Mas você fica assistindo assim mesmo. Esse é o ponto."</p>
+            <cite>— Análise de engajamento, We Are Social 2025</cite>
+          </div>
+
+        </div>
+
+        <div class="col">
+
+          <!-- MAIS VIRALIZOU -->
+          <span class="section-flag" style="background:#000">Também Bombou</span>
+          <div style="margin-top:10px;margin-bottom:16px">
+            <div class="headline-sm">🐘 Elefanta adota cabrito abandonado no Quênia</div>
+            <div class="body-text" style="margin-top:4px">
+              <p>Vídeo de 90 segundos mostrando uma elefanta adulta protegendo um cabrito orphão no Parque Nacional de Tsavo passou de 50 milhões de views combinados no Instagram e TikTok. ONGs usaram o alcance para arrecadar fundos para o parque.</p>
+            </div>
+            <hr class="rule-thin" style="margin-top:10px">
+          </div>
+
+          <div style="margin-bottom:16px">
+            <div class="headline-sm">🦜 Arara fala o nome do veterinário antes de ser examinada</div>
+            <div class="body-text" style="margin-top:4px">
+              <p>Clínica veterinária em Curitiba viralizou após postar vídeo em que a arara Pitanga anuncia "Dr. Fernando" toda vez que o médico entra na sala. O vídeo acumulou 12 milhões de views e transformou a clínica em destino de turismo afetivo local.</p>
+            </div>
+            <hr class="rule-thin" style="margin-top:10px">
+          </div>
+
+          <!-- CLASSIFICADOS VINTAGE -->
+          <div class="classifieds">
+            <div class="classifieds-title">🐾 Classificados da Comunidade</div>
+            <!-- SUBSTITUA os itens abaixo pelos classificados reais de cada edição -->
+            <div class="classified-item">
+              <strong>ENCONTRADO</strong> — Gato tigrado, macho, aprox. 2 anos. Bairro Savassi, BH. Sem microchip. Aguarda tutor. <em>[coloque contato aqui]</em>
+            </div>
+            <div class="classified-item">
+              <strong>PROCURO</strong> — Filhotes de coelho anão para adoção responsável. Família com crianças, quintal. <em>[coloque contato aqui]</em>
+            </div>
+            <div class="classified-item">
+              <strong>SERVIÇO</strong> — Veterinária domiciliar disponível aos sábados, zona sul de SP. Consulta geral e vacinação. <em>[coloque contato aqui]</em>
+            </div>
+            <div class="classified-item">
+              <strong>PERDIDO</strong> — Shih Tzu fêmea, nome Pipoca, coleira azul. Desaparecida no Leblon, RJ. Recompensa. <em>[coloque contato aqui]</em>
+            </div>
+          </div>
+
+          <div class="ornament" style="margin-top:16px">❦</div>
+
+          <!-- PRÓXIMA EDIÇÃO -->
+          <div style="background:var(--ink);color:var(--paper);padding:14px 16px;margin-top:8px">
+            <div style="font-family:var(--ff-display);font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.6;margin-bottom:6px">Na próxima edição</div>
+            <div style="font-family:var(--ff-display);font-size:1rem;font-weight:700;font-style:italic;line-height:1.3">
+              <!-- SUBSTITUA pelas chamadas da próxima edição -->
+              O retorno do lobo-guará ao cerrado paulista · Nova legislação de maus-tratos · Adoção da semana · e mais
+            </div>
+            <div style="font-family:var(--ff-body);font-size:.62rem;opacity:.5;margin-top:8px;letter-spacing:.06em">PUBLICADO TODA SEMANA</div>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="rule-thick" style="margin-top:20px">
+
+      <div class="colophon">
+        Jornal Animal · Edição 001 · Todos os direitos reservados
+        <br>Publicação independente de jornalismo animal · Conteúdo renovado semanalmente
+        <br><span style="font-family:'Dancing Script',cursive;font-size:1rem;color:var(--gold)">by Karolina</span>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /journal -->
 
 <script>
-    // --- DATABASE DE TREINOS ---
-    const trainings = [
-        {
-            id: 'sentar',
-            name: 'Ensinar a sentar',
-            desc: 'O comando básico mais importante.',
-            icon: '🪑',
-            steps: [
-                'Segure um petisco perto do nariz do pet.',
-                'Mova a mão para cima, fazendo a cabeça seguir o petisco.',
-                'Isso fará o bumbum baixar naturalmente.',
-                'Assim que sentar, diga "Senta" e dê a recompensa.',
-                'Repita 5 vezes por sessão.'
-            ]
-        },
-        {
-            id: 'xixi',
-            name: 'Xixi no lugar certo',
-            desc: 'Mantenha sua casa limpa e o pet educado.',
-            icon: '🚽',
-            steps: [
-                'Leve-o ao tapetinho logo após acordar ou comer.',
-                'Use uma palavra de comando como "Banheiro".',
-                'Ignore os erros; limpe com neutralizador de odor.',
-                'Recompense IMEDIATAMENTE após ele acertar o local.'
-            ]
-        },
-        {
-            id: 'guia',
-            name: 'Parar de puxar a guia',
-            desc: 'Passeios mais calmos e prazerosos.',
-            icon: '🐕',
-            steps: [
-                'Comece a andar. Se ele puxar, pare imediatamente.',
-                'Não puxe de volta, apenas fique parado como uma estátua.',
-                'Quando a guia afrouxar e ele olhar para você, recompense.',
-                'Ande novamente. Repita o processo com paciência.'
-            ]
-        },
-        {
-            id: 'latidos',
-            name: 'Reduzir latidos',
-            desc: 'Controle a ansiedade e barulhos excessivos.',
-            icon: '📢',
-            steps: [
-                'Identifique o gatilho (campainha, pessoas, etc).',
-                'Desvie a atenção dele antes do latido começar.',
-                'Use o comando "Silêncio" em tom calmo.',
-                'Recompense o silêncio com algo de alto valor.'
-            ]
-        }
-    ];
+// ── DATA AUTOMÁTICA ──────────────────────────────────────────────
+const hoje = new Date();
+const fmt = new Intl.DateTimeFormat('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+const dataStr = fmt.format(hoje);
+['capa','p2','p3','p4','p5'].forEach(id=>{
+  const el=document.getElementById('data-'+id);
+  if(el) el.textContent=dataStr;
+});
 
-    // --- ESTADO DO APP ---
-    let userProgress = JSON.parse(localStorage.getItem('patinha_progress')) || {};
-    let currentTrainingId = null;
+// ── NAVEGAÇÃO ENTRE PÁGINAS ───────────────────────────────────────
+const pageMap = {
+  capa: 'page-capa',
+  p2:   'page-p2',
+  p3:   'page-p3',
+  p4:   'page-p4',
+  p5:   'page-p5'
+};
 
-    // --- FUNÇÕES DE NAVEGAÇÃO ---
-    function init() {
-        renderTrainingList();
-    }
+function showPage(id, btn){
+  // Esconde todas
+  Object.values(pageMap).forEach(pid=>{
+    const el=document.getElementById(pid);
+    if(el){ el.style.display='none'; el.classList.remove('visible'); }
+  });
+  // Mostra a selecionada
+  const target=document.getElementById(pageMap[id]);
+  if(target){
+    target.style.display='block';
+    setTimeout(()=>target.classList.add('visible'),20);
+    target.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  // Atualiza nav
+  document.querySelectorAll('.nav-page-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
 
-    function renderTrainingList() {
-        const listContainer = document.getElementById('training-list');
-        listContainer.innerHTML = '';
-
-        trainings.forEach(t => {
-            const data = userProgress[t.id] || { progress: 0 };
-            const card = document.createElement('div');
-            card.className = 'training-card';
-            card.onclick = () => showDetail(t.id);
-            card.innerHTML = `
-                <div class="card-top">
-                    <div class="card-icon">${t.icon}</div>
-                    <div class="card-info">
-                        <h3>${t.name}</h3>
-                        <p>${t.desc}</p>
-                    </div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${data.progress}%"></div>
-                </div>
-                <div style="font-size: 11px; font-weight: 600; color: var(--primary-orange)">${data.progress}% CONCLUÍDO</div>
-            `;
-            listContainer.appendChild(card);
-        });
-    }
-
-    function showDetail(id) {
-        currentTrainingId = id;
-        const training = trainings.find(t => t.id === id);
-        const data = userProgress[id] || { progress: 0, streak: 0, lastDate: null };
-
-        document.getElementById('home-view').style.display = 'none';
-        document.getElementById('detail-view').style.display = 'block';
-        document.querySelector('.btn-back').style.display = 'block';
-
-        document.getElementById('detail-title').innerText = training.name;
-        
-        // Renderizar passos
-        const stepsContainer = document.getElementById('detail-steps');
-        stepsContainer.innerHTML = training.steps.map(s => `<li>${s}</li>`).join('');
-
-        // Reset checklist
-        document.querySelectorAll('.check-step').forEach(c => c.checked = false);
-        document.getElementById('btn-finish').disabled = true;
-        document.getElementById('feedback-msg').style.display = 'none';
-
-        updateStatsUI(data);
-    }
-
-    function showHome() {
-        document.getElementById('home-view').style.display = 'block';
-        document.getElementById('detail-view').style.display = 'none';
-        document.querySelector('.btn-back').style.display = 'none';
-        renderTrainingList();
-    }
-
-    // --- LOGICA DE TREINO ---
-
-    // Habilitar botão apenas se checklist estiver ok
-    document.addEventListener('change', (e) => {
-        if(e.target.classList.contains('check-step')) {
-            const allChecked = Array.from(document.querySelectorAll('.check-step')).every(c => c.checked);
-            document.getElementById('btn-finish').disabled = !allChecked;
-        }
-    });
-
-    function completeDailyTraining() {
-        const today = new Date().toDateString();
-        let data = userProgress[currentTrainingId] || { progress: 0, streak: 0, lastDate: null };
-
-        if (data.lastDate === today) {
-            alert("Você já treinou isso hoje! Volte amanhã para continuar evoluindo.");
-            return;
-        }
-
-        // Lógica de progresso e streak
-        data.progress = Math.min(data.progress + 10, 100);
-        
-        if (data.lastDate === new Date(Date.now() - 86400000).toDateString()) {
-            data.streak += 1;
-        } else {
-            data.streak = 1;
-        }
-        
-        data.lastDate = today;
-        userProgress[currentTrainingId] = data;
-        localStorage.setItem('patinha_progress', JSON.stringify(userProgress));
-
-        // Feedback Visual
-        updateStatsUI(data);
-        document.getElementById('feedback-msg').style.display = 'block';
-        document.getElementById('btn-finish').disabled = true;
-
-        // Animação de confete simples (feedback emocional)
-        document.getElementById('btn-finish').innerText = "✅ Treino Concluído!";
-        setTimeout(() => {
-            showHome();
-        }, 2000);
-    }
-
-    function updateStatsUI(data) {
-        document.getElementById('detail-progress-bar').style.width = data.progress + '%';
-        document.getElementById('stat-progress').innerText = data.progress + '%';
-        document.getElementById('stat-streak').innerText = data.streak;
-    }
-
-    // Iniciar
-    init();
-
+// Ativa animação da capa no load
+window.addEventListener('load',()=>{
+  const capa=document.getElementById('page-capa');
+  if(capa) setTimeout(()=>capa.classList.add('visible'),100);
+});
 </script>
-
 </body>
 </html>
